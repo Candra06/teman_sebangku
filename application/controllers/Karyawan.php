@@ -34,6 +34,8 @@ class Karyawan extends CI_Controller {
         $data['title'] = "Backend-Teman Sebangku"; // title project
         $data['header'] = "Input Data Karyawan";
         $data['content'] = "Karyawan/Add";
+        $data['data'] = null;
+        $data['user'] = null;
         $data['outlet'] = $this->MOutlet->tampilData();
         $this->load->view('backend/index',$data);
     }

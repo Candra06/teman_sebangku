@@ -13,6 +13,8 @@ class Outlet extends CI_Controller {
         $this->load->model("MHistory");
         if ($this->uri->segment(2) == "Add" && $_SERVER['REQUEST_METHOD'] == "POST") {
             $this->Insert();
+        }elseif($this->uri->segment(2) == "Edit" && $_SERVER['REQUEST_METHOD'] == "POST"){
+            $this->Update($this->uri->segment(3));
         }
         // if (session_destroy()) {
         //     redirect(base_url('App'));
@@ -36,6 +38,17 @@ class Outlet extends CI_Controller {
         $data['title'] = "Backend-Hikayat"; // title project
         $data['header'] = "Input Data Outlet";
         $data['content'] = "Outlet/Add";
+        $data['data'] = null;
+        $this->load->view('backend/index',$data);
+    }
+
+    public function Edit($kd_outlet)
+    {
+        $this->load->model("M_front");
+        $data['title'] = "Backend-Hikayat"; // title project
+        $data['header'] = "Input Data Outlet";
+        $data['content'] = "Outlet/Add";
+        $data['data'] = $this->db->get_where("outlet", ['kd_outlet' => $kd_outlet])->row_array();
         $this->load->view('backend/index',$data);
     }
 
@@ -102,12 +115,7 @@ class Outlet extends CI_Controller {
 
     public function Update()
     {
-        
-    }
-
-    public function Edit()
-    {
-        
+        echo 'yuhuu';
     }
 
     public function Delete()

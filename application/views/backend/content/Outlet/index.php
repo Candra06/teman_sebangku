@@ -43,7 +43,7 @@
                               <td><?= $dt['closed'];?></td>
                               <!-- <td><?php if($dt['status']==1){echo 'Ditampilkan';}elseif($dt['status']==0){echo 'Tidak Ditampilkan';}?></td> -->
                               <td>
-                                <button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i>Edit</button>
+                                <a href="<?= base_url().$this->uri->segment(1)."/Edit/$dt[kd_outlet]"?>"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i>Edit</button></a>
                                 
                               </td>
                             </tr>

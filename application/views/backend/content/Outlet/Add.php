@@ -23,7 +23,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Nama Outlet</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" name="nama" id="exampleInputName1" placeholder="Nama Outlet">
+                            <input type="text" class="form-control" name="nama" value="<?= Input_helper::postOrOr('nama', $data['nama_outlet'])?>" id="exampleInputName1" placeholder="Nama Outlet">
                           </div>
                         </div>
                       </div>
@@ -39,7 +39,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Jam Buka</label>
                           <div class="col-sm-9">
-                            <input type="time" name="open" class="form-control" placeholder="Jam Buka">
+                            <input type="time" name="open" class="form-control" value="<?= Input_helper::postOrOr('open', $data['open'])?>" placeholder="Jam Buka">
                           </div>
                         </div>
                       </div>
@@ -57,7 +57,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Jam Tutup</label>
                           <div class="col-sm-9">
-                            <input type="time" class="form-control" name="closed" id="exampleInputCity1" placeholder="Jam Tutup">
+                            <input type="time" class="form-control" name="closed" value="<?= Input_helper::postOrOr('closed', $data['closed'])?>" id="exampleInputCity1" placeholder="Jam Tutup">
                           </div>
                         </div>
                       </div>
@@ -65,7 +65,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Alamat</label>
                           <div class="col-sm-9">
-                            <textarea class="form-control" name="alamat" id="exampleTextarea1" rows="2" placeholder="Alamat"></textarea>
+                            <textarea class="form-control" name="alamat" id="exampleTextarea1" rows="2" placeholder="Alamat"><?= Input_helper::postOrOr('alamat', $data['alamat'])?></textarea>
                           </div>
                         </div>
                       </div>

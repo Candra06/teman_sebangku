@@ -36,6 +36,18 @@ class Pelanggan extends CI_Controller {
         $data['title'] = "Backend-Teman Sebangku"; // title project
         $data['header'] = "Input Data Pelanggan";
         $data['content'] = "Pelanggan/Add";
+        $data['data'] = null;
+        $this->load->view('backend/index',$data);
+    }
+
+    public function Edit($kd_pelanggan)
+    {
+        $this->load->model("M_front");
+        $data['title'] = "Backend-Teman Sebangku"; // title project
+        $data['header'] = "Edit Data Pelanggan";
+        $data['content'] = "Pelanggan/Add";
+        $data['data'] = $this->db->get_where("pelanggan", ['kd_pelanggan' => $kd_pelanggan])->row_array();
+        
         $this->load->view('backend/index',$data);
     }
 

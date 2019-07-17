@@ -48,7 +48,7 @@
                               <td><?= $dt['domisili'];?></td>  
                               <td><?= $dt['poin'];?></td> 
                               <td>
-                              <button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i>Edit</button>
+                              <a href="<?= base_url().$this->uri->segment(1)."/Edit/$dt[kd_pelanggan]"?>"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i>Edit</button></a>
                                 
                               </td>
                             </tr>
