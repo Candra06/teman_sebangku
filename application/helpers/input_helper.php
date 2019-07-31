@@ -2,7 +2,7 @@
 /**
 *
 */
-class Input_helper
+class input_helper
 {
 
 	public static function postOrOr($index, $a = '', $b = '')

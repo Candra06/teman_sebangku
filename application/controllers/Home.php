@@ -24,7 +24,7 @@ class Home extends CI_Controller {
 		$this->load->helper("Response_helper");
 		$this->load->helper("Input_helper");
 		$this->load->model("M_front");
-		$this->load->model("MHistory");
+		// $this->load->model("MHistory");
 		// $this->load->model("MAkun");
 		$this->load->model("MOutlet");
 		// $this->load->model("MBab");

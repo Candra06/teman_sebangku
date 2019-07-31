@@ -1,6 +1,6 @@
 <?php
 
-class MHistory extends CI_Model{
+class MFrontEnd extends CI_Model{
 
     public function tampilData(){
         $q = $this->db->query("SELECT h.*, a.nama FROM history h JOIN akun a ON h.kd_akun=a.kd_akun");
@@ -12,16 +12,16 @@ class MHistory extends CI_Model{
         $this->db->update("hikayat", $hikayat, ['kd_hikayat' => $kode]);
     }
 
-    // public function deleteData($kode)
-    // {
-    //     $this->db->where('kd_anggota', $kode);
-    //     $this->db->delete('anggota');
-    //     return true;
-    // }
+    public function menu(){
+        $q = $this->db->query("SELECT * FROM menu WHERE status=1");
+        $ada = $q->result_array();
+        return $ada;
+    }
 
-    public function input_data($history)
-    {
-        $this->db->insert("history", $history);
+    public function blog(){
+        $q = $this->db->query("SELECT * FROM blog WHERE status=1");
+        $ada = $q->result_array();
+        return $ada;
     }
 }
 ?>

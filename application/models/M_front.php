@@ -23,6 +23,8 @@ class M_front extends CI_Model{
         return $return_str;
     }
 
+    
+
    
 }
 ?>

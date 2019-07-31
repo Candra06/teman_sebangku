@@ -9,7 +9,7 @@ class Voucher extends CI_Controller {
         $this->load->helper("Input_helper");
         $this->load->model("M_front");
         $this->load->model("MVoucher");
-        $this->load->model("MHistory");
+        // $this->load->model("MHistory");
         $this->load->helper(array('form', 'url'));
         if ($this->uri->segment(2) == "Add" && $_SERVER['REQUEST_METHOD'] == "POST") {
             $this->Input();
