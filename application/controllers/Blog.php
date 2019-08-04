@@ -67,7 +67,7 @@ class Blog extends CI_Controller {
             } else {
                 // setting konfigurasi upload
                 $config['upload_path'] = './foto/blog/';
-                $config['allowed_types'] = 'gif|jpg|png';
+                $config['allowed_types'] = 'gif|jpg|png|svg|jpeg';
                 $config['file_name'] = 'blog_'.$p['judul'];
                 $config['remove_space'] = TRUE;
                 // load library upload
@@ -75,7 +75,7 @@ class Blog extends CI_Controller {
                 if(!$this->upload->do_upload('foto_blog')){
                     echo "<script type=text/javascript>alert('Upload gagal!');</script>";
                 }else{
-                    $foto = $this->upload->data('file_name');
+                    $foto = $config['upload_path'].$this->upload->data('file_name');
                 }
                 
             }

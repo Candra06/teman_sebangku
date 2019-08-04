@@ -25,7 +25,7 @@ class Outlet extends CI_Controller {
 	public function index()
 	{
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
+        $data['title'] = "Kopi Teman Sebangku"; // title project
         $data['header'] = "Data Outlet";
         $data['content'] = "Outlet/index";
         $data['data'] = $this->MOutlet->tampilData();
@@ -35,7 +35,7 @@ class Outlet extends CI_Controller {
     public function Add()
     {
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
+        $data['title'] = "Kopi Teman Sebangku"; // title project
         $data['header'] = "Input Data Outlet";
         $data['content'] = "Outlet/Add";
         $data['data'] = null;
@@ -45,7 +45,7 @@ class Outlet extends CI_Controller {
     public function Edit($kd_outlet)
     {
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
+        $data['title'] = "Kopi Teman Sebangku"; // title project
         $data['header'] = "Input Data Outlet";
         $data['content'] = "Outlet/Add";
         $data['data'] = $this->db->get_where("outlet", ['kd_outlet' => $kd_outlet])->row_array();
@@ -76,7 +76,7 @@ class Outlet extends CI_Controller {
                     echo "<script type=text/javascript>alert('Upload gagal!');</script>";
                     
                 }else{
-                    $foto = $this->upload->data('file_name');
+                    $foto = $config['upload_path'].$this->upload->data('file_name');
                 }
                 
             }

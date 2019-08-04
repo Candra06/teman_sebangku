@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Outlet extends CI_Controller {
+class Promo extends CI_Controller {
 
     function __construct(){
         parent::__construct();
@@ -9,7 +9,7 @@ class Outlet extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         $this->load->helper("Input_helper");
         $this->load->model("M_front");
-        $this->load->model("MOutlet");
+        $this->load->model("MPromo");
         // $this->load->model("MHistory");
         if ($this->uri->segment(2) == "Add" && $_SERVER['REQUEST_METHOD'] == "POST") {
             $this->Insert();
@@ -25,30 +25,30 @@ class Outlet extends CI_Controller {
 	public function index()
 	{
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
-        $data['header'] = "Data Outlet";
-        $data['content'] = "Outlet/index";
-        $data['data'] = $this->MOutlet->tampilData();
+        $data['title'] = "Kopi Teman Sebangku"; // title project
+        $data['header'] = "Data Promo";
+        $data['content'] = "Promo/index";
+        $data['data'] = $this->MPromo->tampilData();
         $this->load->view('backend/index',$data);
     }
 
     public function Add()
     {
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
-        $data['header'] = "Input Data Outlet";
-        $data['content'] = "Outlet/Add";
+        $data['title'] = "Kopi Teman Sebangku"; // title project
+        $data['header'] = "Input Data Promo";
+        $data['content'] = "Promo/Add";
         $data['data'] = null;
         $this->load->view('backend/index',$data);
     }
 
-    public function Edit($kd_outlet)
+    public function Edit($kd_Promo)
     {
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
-        $data['header'] = "Input Data Outlet";
-        $data['content'] = "Outlet/Add";
-        $data['data'] = $this->db->get_where("outlet", ['kd_outlet' => $kd_outlet])->row_array();
+        $data['title'] = "Kopi Teman Sebangku"; // title project
+        $data['header'] = "Input Data Promo";
+        $data['content'] = "Promo/Add";
+        $data['data'] = $this->db->get_where("Promo", ['kd_Promo' => $kd_Promo])->row_array();
         $this->load->view('backend/index',$data);
     }
 
@@ -58,39 +58,38 @@ class Outlet extends CI_Controller {
         try {
             $p = $_POST;
             $date = date('Y-m-d H:i:s');
-            $kode_outlet = $this->M_front->auto_kode(8); 
+            $kode_promo = $this->M_front->auto_kode(5); 
             $kode_history = $this->M_front->auto_kode(8);
-            $foto = $_FILES['foto_outlet']['name'];
+            $foto = $_FILES['foto_promo']['name'];
 
             if ($foto == '') {
                 echo "<script type=text/javascript>alert(Foto masih kosong!');</script>";
             } else {
                 // setting konfigurasi upload
-                $config['upload_path'] = './foto/outlet/';
+                $config['upload_path'] = './foto/promo/';
                 $config['allowed_types'] = 'gif|jpg|png';
-                $config['file_name'] = 'outlet_'.$p['nama'];
+                $config['file_name'] = 'promo_'.$p['promo'];
                 $config['remove_space'] = TRUE;
                 // load library upload
                 $this->load->library('upload', $config);
-                if(!$this->upload->do_upload('foto_outlet')){
+                if(!$this->upload->do_upload('foto_promo')){
                     echo "<script type=text/javascript>alert('Upload gagal!');</script>";
                     
                 }else{
-                    $foto = $this->upload->data('file_name');
+                    $foto = $config['upload_path'].$this->upload->data('file_name');
                 }
                 
             }
             
             // print_r($_FILES);
-            $outlet = [
-            'kd_outlet' => $kode_outlet,
-            'nama_outlet' => $p['nama'],
-            'alamat' => $p['alamat'],
-            'open' => $p['open'],
-            'closed' => $p['closed'],
+            $promo = [
+            'kd_promo' => $kode_promo,
+            'judul_promo' => $p['promo'],
+            'syarat_ketentuan' => $p['sk'],
+            'tgl_mulai' => $p['mulai'],
+            'tgl_akhir' => $p['akhir'],
             'foto' => $foto,
-            'create_at' => $date,
-            'create_by' => 'admin',
+            'promo' => $p['poin'],
             'status' => 1
             ];
 
@@ -101,14 +100,14 @@ class Outlet extends CI_Controller {
             //     'aktivitas' => 'Menambah Data',
             //     'keterangan' => 'Menambah judul hikayat '.$p['judul']
             // ];
-            $this->MOutlet->input_data($outlet);
+            $this->MPromo->input_data($promo);
             // $this->MHistory->input_data($history);
             $this->session->set_flashdata("message", ['success', 'Berhasil input data '.$this->uri->segment(1)]);
-            redirect(base_url("Outlet"));
+            redirect(base_url("Promo"));
             echo 'berhasil menambah data';
         } catch (Exception $e) {
             $this->session->set_flashdata("message", ['danger', 'Gagal input data '.$this->uri->segment(1)]);
-            redirect(base_url("Outlet/Add"));
+            redirect(base_url("Promo/Add"));
             echo 'Gagal menambah data';
         } 
     }

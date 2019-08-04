@@ -176,7 +176,7 @@ class API extends CI_Controller
             } else {
                 if ($aksi == 'login') {
                     $pass = md5($this->input->post('password'));
-                    $kode = $this->M_front->get_kode(10);
+                    $kode = $this->M_front->get_kode(8);
                     $kd_user = $this->M_front->get_kode(15);
                     $auth_code = $this->M_front->get_kode(25);
                     $batas = mktime(0,0,0,date("n"),date("j")+7,date("Y"));
@@ -204,6 +204,7 @@ class API extends CI_Controller
                         'user' => $usr,
                         'boollogin' => false
                     ];
+                    $this->generate_qr($kode);
                     $this->MAPI->insert_into('pelanggan', $arr);
                     $this->MAPI->insert_into('user', $usr);
                     
@@ -359,12 +360,23 @@ class API extends CI_Controller
                 'kd_pelanggan' => $user,
                 'status' => 1
             ];
+            $this->generate_qr($kd_detail);
             $this->MAPI->insert_into('detail_voucher', $array);
+            $data['respon'] = [
+                'pesan' => 'Input Berhasil',
+                'data' => $array,
+                'savedata' => true
+            ];
         }elseif($tipe == 'acc_voucher'){
             $auth = $this->input->post('kode');
             $vocher = $this->input->post('kd_detail');
             $arr = ['status' => 2];
             $this->MAPI->update_data('detail_voucher', $arr, 'kd_detail', $vocher);
+            $data['respon'] = [
+                'pesan' => 'Voucher berhasil digunakan',
+                'data' => $arr,
+                'savedata' => true
+            ];
         }else{
             $data['respon'] = [
                 'pesan' => 'Input gagal'
@@ -373,6 +385,28 @@ class API extends CI_Controller
 
         echo json_encode($data, JSON_PRETTY_PRINT);
         
+    }
+
+    public function generate_qr($kode_detali){
+        $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+
+		$config['cacheable']	= true; //boolean, the default is true
+		$config['cachedir']		= './foto/'; //string, the default is application/cache/
+		$config['errorlog']		= './foto/'; //string, the default is application/logs/
+		$config['imagedir']		= './foto/qrcode/'; //direktori penyimpanan qr code
+		$config['quality']		= true; //boolean, the default is true
+		$config['size']			= '1024'; //interger, the default is 1024
+		$config['black']		= array(225,255,255); // array, default is array(255,255,255)
+		$config['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config);
+
+		$image_name=$kode_detali.'.png'; //buat name dari qr code sesuai dengan nim
+
+		$params['data'] = $kode_detali; //data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; //H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
+		$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
     }
 }
 

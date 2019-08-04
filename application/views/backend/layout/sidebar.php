@@ -26,12 +26,12 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" data-toggle="collapse" href="#ui-public" aria-expanded="false" aria-controls="ui-basic">
               <i class="menu-icon mdi mdi-content-copy"></i>
               <span class="menu-title">Data Public</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="ui-public">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
                   <a class="nav-link" href="<?= base_url('Promo') ?>">Promo</a>
@@ -40,9 +40,7 @@
                 <li class="nav-item">
                   <a class="nav-link" href="<?= base_url('Blog') ?>">Blog</a>
                 </li>
-                <!-- <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('Voucher') ?>">Voucher</a>
-                </li> -->
+                
               </ul>
             </div>
           </li>
@@ -55,6 +53,9 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="<?= base_url('Menu') ?>">Menu</a>
+                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="<?= base_url('Outlet') ?>">Outlet</a>
                 </li>

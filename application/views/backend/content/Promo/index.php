@@ -14,7 +14,7 @@
                       </div>";
                     }
                   ?>
-                  <a href="<?= base_url('Outlet/Add')?>">
+                  <a href="<?= base_url('Promo/Add')?>">
                     <button class="btn btn-success btn-sm">Tambah Data
                       <i class="mdi mdi-plus"></i>
                     </button>
@@ -28,22 +28,21 @@
                           <thead>
                             <tr>    
                               <th>Kode</th>
-                              <th>Outlet</th>
-                              <th>Jam Buka</th>
-                              <th>Jam Tutup</th>
+                              <th>Promo</th>
+                              <th>Tanggal Berlaku</th>
+                              <th>Status</th>
                               <th>Aksi</th>
                             </tr>
                           </thead>
                           <tbody>
                           <?php foreach($data as $dt) {?>
                             <tr>
-                              <td><?= $dt['kd_outlet'];?></td>        
-                              <td><?= $dt['nama_outlet'];?></td>
-                              <td><?= $dt['open'];?></td>
-                              <td><?= $dt['closed'];?></td>
-                              <!-- <td><?php if($dt['status']==1){echo 'Ditampilkan';}elseif($dt['status']==0){echo 'Tidak Ditampilkan';}?></td> -->
+                              <td><?= $dt['kd_promo'];?></td>        
+                              <td><?= $dt['judul_promo'];?></td>
+                              <td><?= $dt['tgl_mulai'];?> s/d <?= $dt['tgl_akhir'];?></td>
+                              <td><?php if($dt['status']==1){echo 'Ditampilkan';}elseif($dt['status']==0){echo 'Tidak Ditampilkan';}?></td>
                               <td>
-                                <a href="<?= base_url().$this->uri->segment(1)."/Edit/$dt[kd_outlet]"?>"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i>Edit</button></a>
+                                <a href="<?= base_url().$this->uri->segment(1)."/Edit/$dt[kd_promo]"?>"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i>Edit</button></a>
                                 
                               </td>
                             </tr>
