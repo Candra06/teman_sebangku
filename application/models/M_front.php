@@ -23,6 +23,15 @@ class M_front extends CI_Model{
         return $return_str;
     }
 
+    public function generate_referal($maxLength){
+        $chary = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+        $return_str = "";
+        for ( $x=1; $x<=$maxLength; $x++ ) {
+            $return_str .= $chary[rand(0, count($chary)-1)];
+        }
+        return $return_str;
+    }
+
     
 
    

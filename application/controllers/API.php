@@ -97,10 +97,16 @@ class API extends CI_Controller
                     $data['data'] = $this->MAPI->get_data('blog');
                 }else if($tipe == 'voucher'){
                     $data['data'] = $this->MAPI->multi_data('voucher_ku', '', $cek_auth['kd_akses']);
+                }else if($tipe == 'kasir_profil'){
+                    $data['data'] = $this->MAPI->get_data('karyawan', $cek_auth['kd_akses']);
+                }elseif ($tipe == 'detail_promo') {
+                    $kode = $this->input->post('kd_promo');
+                    $data['data'] = $this->MAPI->get_data('dt_promo', $kode);
                 }
             } else {
                 $data['respon'] = [
-                    'pesan' => 'Kode auth expired, silahkan login kembali'
+                    'pesan' => 'Kode auth expired, silahkan login kembali',
+                    'bool' => true
                 ];
             }
             
@@ -115,147 +121,191 @@ class API extends CI_Controller
     public function input_data(){
         $date = date("Y-m-d");
         $tipe = $this->input->post("tipe");
-        if ($tipe == 'first_login') {
+        if ($tipe == 'cek_nohp') {
             $no_hp = $this->input->post('no_hp');
-            $log = $this->db->get_where("pelanggan", ["no_hp" => $no_hp])->row_array();
-            $aksi = $this->input->post('aksi');
-            if ($log > 1) {
-                if ($aksi == 'login') {
-                    $p = $_POST;
-                    $pass = md5($p['password']);
-                    $auth_code = $this->M_front->get_kode(25);
-                    $login = $this->db->get_where("user", ['kd_akses' => $log['kd_pelanggan']] )->row_array();
-                    if ($pass == $login['password']) {
-                        $batas = mktime(0,0,0,date("n"),date("j")+7,date("Y"));
-                        $exp = date("Y-m-d", $batas);
-                        
-                        $array = [
-                            'last_login' => date('Y-m-d h:i:s'),
-                            'auth_key' => $auth_code,
-                            'exp_date' => $exp,
-                            'status_auth' => 1
-                        ];
-
-                        $data_auth = [
-                            'auth_key' => $auth_code,
-                            'kd_akses' => $login['kd_akses'],
-                            'level' => $login['level'],
-                            'exp_date' => $login['exp_date'],
-                            'username' => $login['username'],
-                            'nama' => $log['nama'],
-                            'no_hp' => $log['no_hp'] 
-                        ];
-
-                        $this->MAPI->update_data('user', $array, 'kd_akses', $log['kd_pelanggan']);
-                        $data['respon'] = [
-                            'pesan' => 'Login Berhasil',
-                            'boollogin' => true,
-                            'data' => $array,
-                            'session' => $data_auth,
-                            'auth_key' => $auth_code,
-                            'kd_akses' => $login['kd_akses'],
-                            'level' => $login['level'],
-                            'exp_date' => $login['exp_date'],
-                            'username' => $login['username'],
-                            'nama' => $log['nama'],
-                            'no_hp' => $log['no_hp'] 
-                        ];
-                    } else {
-                        $data['respon'] = [
-                            'pesan' => 'Login gagal',
-                            'boollogin' => false
-                        ];
-                    }
-                } else {
+            $logg = $this->db->get_where("karyawan", ["no_hp" => $no_hp])->row_array();
+            if ($logg > 0) {
+                $data['respon'] = [
+                    'pesan' => 'Selamat datang karyawan',
+                    'status' => 2,
+                    'boollogin' => true
+                ];
+            }else{
+                $log = $this->db->get_where("pelanggan", ["no_hp" => $no_hp])->row_array();
+                if ($log > 0) {
                     $data['respon'] = [
-                        'pesan' => '0',
-                        'boollogin' => false
+                        'pesan' => 'Selamat datang pelanggan',
+                        'status' => 3,
+                        'boollogin' => true
+                    ];
+                }else{
+                    $data['respon'] = [
+                        'pesan' => 'Selamat datang',
+                        'status' => 0,
+                        'boollogin' => true
                     ];
                 }
-                
-            } else {
-                if ($aksi == 'login') {
-                    $pass = md5($this->input->post('password'));
-                    $kode = $this->M_front->get_kode(8);
-                    $kd_user = $this->M_front->get_kode(15);
-                    $auth_code = $this->M_front->get_kode(25);
+            }
+        } else if ($tipe == 'login') {
+            $no_hp = $this->input->post('no_hp');
+            $cek = $this->db->get_where("karyawan", ["no_hp" => $no_hp])->row_array();
+            if ($cek > 0) { 
+                // karyawan
+                $p = $_POST;
+                $pass = md5($p['password']);
+                $auth_code = $this->M_front->get_kode(25);
+                $login = $this->db->get_where("user", ['kd_akses' => $cek['kd_karyawan']] )->row_array();
+                if($pass == $login['password']){
                     $batas = mktime(0,0,0,date("n"),date("j")+7,date("Y"));
                     $exp = date("Y-m-d", $batas);
-                    $arr = [
-                        'kd_pelanggan' => $kode,
-                        'no_hp' => $no_hp,
-                        'status' => 0
-                    ];
-                    $usr = [
-                        'kd_user' => $kd_user,
-                        'kd_akses' => $kode,
-                        'status' => 0,
-                        'level' => 3,
-                        'password' => $pass,
+                    
+                    $array = [
                         'last_login' => date('Y-m-d h:i:s'),
                         'auth_key' => $auth_code,
                         'exp_date' => $exp,
                         'status_auth' => 1
                     ];
 
-                    $data['respon'] = [
-                        'pesan' => 'Input Berhasil',
-                        'data' => $arr,
-                        'user' => $usr,
-                        'boollogin' => false
+                    $data_auth = [
+                        'auth_key' => $auth_code,
+                        'kd_akses' => $login['kd_akses'],
+                        'level' => $login['level'],
+                        'exp_date' => $login['exp_date'],
+                        'username' => $login['username'],
+                        'nama' => $cek['nama'],
+                        'no_hp' => $cek['no_hp'] 
                     ];
-                    $this->generate_qr($kode);
-                    $this->MAPI->insert_into('pelanggan', $arr);
-                    $this->MAPI->insert_into('user', $usr);
-                    
-                } else {
+
+                    $this->MAPI->update_data('user', $array, 'kd_akses', $cek['kd_karyawan']);
                     $data['respon'] = [
-                        'pesan' => '0',
+                        'pesan' => 'Login Berhasil',
+                        'boollogin' => true,
+                        'data' => $array,
+                        'user' => $data_auth,
+                        'auth_key' => $auth_code,
+                        'kd_akses' => $login['kd_akses'],
+                        'level' => $login['level'],
+                        'exp_date' => $login['exp_date'],
+                        'username' => $login['username'],
+                        'nama' => $cek['nama'],
+                        'status' => 1,
+                        'no_hp' => $cek['no_hp'] 
+                    ];
+                }else {
+                    $data['respon'] = [
+                        'pesan' => 'Login gagal',
+                        'status' => 1,
                         'boollogin' => false
                     ];
                 }
-            }
-        } else if($tipe == 'login'){
-            $p = $_POST;
-            $pass = md5($p['password']);
-            $no_hp = $p['no_hp'];
-            $auth_code = $this->M_front->get_kode(25);
-            $login = $this->db->query("SELECT u.*, p.* FROM user u, pelanggan p WHERE p.no_hp='$no_hp' AND u.password='$pass' AND p.kd_pelanggan=u.kd_akses")->row_array();
-            if ($login > 1 ) {
-                $batas = mktime(0,0,0,date("n"),date("j")+7,date("Y"));
-                $exp = date("Y-m-d", $batas);
+                // $data['respon'] = [
+                //     'pesan' => 'UMetode salah2',
+                //     'boollogin' => false
+                // ];
+                   
+            }else {
+                $log = $this->db->get_where("pelanggan", ["no_hp" => $no_hp])->row_array();
+                $aksi = $this->input->post('aksi');
+                if ($log > 1) { // pelanggan
+                    
+                        $p = $_POST;
+                        $pass = md5($p['password']);
+                        $auth_code = $this->M_front->get_kode(25);
+                        $login = $this->db->get_where("user", ['kd_akses' => $log['kd_pelanggan']] )->row_array();
+                        if($pass == $login['password']){
+                            $batas = mktime(0,0,0,date("n"),date("j")+7,date("Y"));
+                            $exp = date("Y-m-d", $batas);
+                            
+                            $array = [
+                                'last_login' => date('Y-m-d h:i:s'),
+                                'auth_key' => $auth_code,
+                                'exp_date' => $exp,
+                                'status_auth' => 1
+                            ];
+
+                            $data_auth = [
+                                'auth_key' => $auth_code,
+                                'kd_akses' => $login['kd_akses'],
+                                'level' => $login['level'],
+                                'exp_date' => $login['exp_date'],
+                                'username' => $login['username'],
+                                'nama' => $log['nama'],
+                                'no_hp' => $log['no_hp'] 
+                            ];
+
+                            $this->MAPI->update_data('user', $array, 'kd_akses', $log['kd_pelanggan']);
+                            $data['respon'] = [
+                                'pesan' => 'Login Berhasil',
+                                'boollogin' => true,
+                                'data' => $array,
+                                'user' => $data_auth,
+                                'auth_key' => $auth_code,
+                                'kd_akses' => $login['kd_akses'],
+                                'level' => $login['level'],
+                                'exp_date' => $login['exp_date'],
+                                'username' => $login['username'],
+                                'nama' => $log['nama'],
+                                'status' => 2,
+                                'no_hp' => $log['no_hp'] 
+                            ];
+                        }else{
+                            $data['respon'] = [
+                                'pesan' => 'Login gagal',
+                                'boollogin' => false
+                            ];
+                        }
+                    }else {
+                        // pelanggan baru
+                        $pass = md5($this->input->post('password'));
+                        $kode = $this->M_front->get_kode(8);
+                        $kd_user = $this->M_front->get_kode(15);
+                        $auth_code = $this->M_front->get_kode(25);
+                        $batas = mktime(0,0,0,date("n"),date("j")+7,date("Y"));
+                        $exp = date("Y-m-d", $batas);
+                        $arr = [
+                            'kd_pelanggan' => $kode,
+                            'no_hp' => $no_hp,
+                            'status' => 0
+                        ];
+                        $usr = [
+                            'kd_user' => $kd_user,
+                            'kd_akses' => $kode,
+                            'status' => 0,
+                            'level' => 3,
+                            'password' => $pass,
+                            'last_login' => date('Y-m-d h:i:s'),
+                            'auth_key' => $auth_code,
+                            'exp_date' => $exp,
+                            'status_auth' => 1
+                        ];
+                        $session = [
+                            'kd_user' => $kd_user,
+                            'kd_akses' => $kode,
+                            'status' => 0,
+                            'level' => 3,
+                            'password' => $pass,
+                            'last_login' => date('Y-m-d h:i:s'),
+                            'auth_key' => $auth_code,
+                            'exp_date' => $exp,
+                            'status_auth' => 1,
+                            'username' => '',
+                            'nama' => '',
+                            'auth_key' => '',
+                        ];
+
+                        $data['respon'] = [
+                            'pesan' => 'Input Berhasil',
+                            'data' => $arr,
+                            'user' => $session,
+                            'boollogin' => true
+                        ];
+                        $this->generate_qr($kode);
+                        $this->MAPI->insert_into('pelanggan', $arr);
+                        $this->MAPI->insert_into('user', $usr);
                 
-                $array = [
-                    'last_login' => date('Y-m-d h:i:s'),
-                    'auth_key' => $auth_code,
-                    'exp_date' => $exp,
-                    'status_auth' => 1
-                ];
-                $data_auth = [
-                    'auth_key' => $auth_code,
-                    'kd_akses' => $login['kd_akses'],
-                    'level' => $login['level'],
-                    'exp_date' => $login['exp_date'],
-                    'username' => $login['username'],
-                    'nama' => $login['nama'],
-                    'no_hp' => $login['no_hp'] 
-                ];
-                $this->MAPI->update_data('user', $array, 'kd_akses', $login['kd_pelanggan']);
-                $data['respon'] = [
-                    'pesan' => 'Login Berhasil',
-                    'boollogin' => true,
-                    'data' => $array,
-                    'session' => $data_auth
-                ];
-                
-            } else {
-                $data['respon'] = [
-                    'pesan' => 'Login Gagal',
-                    'boollogin' => FALSE
-                ];
-                print_r($login);
+                }
             }
-        }else if($tipe == 'register'){
+        } else if($tipe == 'register'){
             $akses = $this->input->post('kd_user');
             $email = $this->input->post('email');
             $nama = $this->input->post('nama');
@@ -369,9 +419,13 @@ class API extends CI_Controller
             ];
         }elseif($tipe == 'acc_voucher'){
             $auth = $this->input->post('kode');
-            $vocher = $this->input->post('kd_detail');
-            $arr = ['status' => 2];
-            $this->MAPI->update_data('detail_voucher', $arr, 'kd_detail', $vocher);
+            $promo = $this->input->post('kd_promo');
+            $id = $this->input->post('kd_user');
+            $get_promo = $this->db->get_where("promo", ["kd_promo" =>$promo])->row_array();
+            $get_user = $this->db->get_where("pelanggan", ["kd_pelanggan" =>$id])->row_array();
+            $count = (int)$get_user['poin'] - (int)$get_promo['poin'];
+            $arr = ['poin' => (int)$count];
+            $this->MAPI->update_data('pelanggan', $arr, 'kd_pelanggan', $id);
             $data['respon'] = [
                 'pesan' => 'Voucher berhasil digunakan',
                 'data' => $arr,
@@ -383,6 +437,39 @@ class API extends CI_Controller
             ];
         }
 
+        echo json_encode($data, JSON_PRETTY_PRINT);
+        
+    }
+
+    public function generate_link(){
+        $auth = $this->input->post('kode');
+        $tgl = date("Y-m-d");
+        $batas = mktime(0,0,0,date("n"),date("j")+3,date("Y"));
+        $exp = date("Y-m-d", $batas);
+        $cek_auth = $this->db->get_where("user", ["auth_key" =>$auth])->row_array();
+        if ($cek_auth > 1) {
+            $referal = $this->M_front->generate_referal(6);
+            $in_ref = [
+                'kd_referal' => $referal,
+                'kd_pelanggan' => $cek_auth['kd_akses'],
+                'generate_date' => $tgl,
+                'exp_date' => $exp,
+                'status' => 1
+            ];
+            $base = base_url();
+            $link = "http://localhost/teman_sebangku/Front/invitation/".$referal;
+            $data['respon'] = [
+                'link' => $link,
+                'data' => $in_ref,
+                'bool' => true
+            ];
+            $this->MAPI->insert_into('referal', $in_ref);
+        } else {
+            $data['respon'] = [
+                'pesan' => 'Input gagal',
+                'bool' => false
+            ];
+        }
         echo json_encode($data, JSON_PRETTY_PRINT);
         
     }

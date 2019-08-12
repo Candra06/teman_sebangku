@@ -82,6 +82,8 @@ class Home extends CI_Controller {
 		echo json_encode();
 	}
 
+	
+
 	public function logout(){
 		session_destroy();
 		redirect(base_url());

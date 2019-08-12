@@ -89,7 +89,7 @@ class Promo extends CI_Controller {
             'tgl_mulai' => $p['mulai'],
             'tgl_akhir' => $p['akhir'],
             'foto' => $foto,
-            'promo' => $p['poin'],
+            'poin' => $p['poin'],
             'status' => 1
             ];
 

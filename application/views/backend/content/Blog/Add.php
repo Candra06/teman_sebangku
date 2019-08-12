@@ -17,8 +17,7 @@
                   <p class="card-description">
                     Basic form elements
                   </p>
-                  <form class="forms-sample" action="" method="POST" enctype="multipart/form-data">
-                    <div class="row">
+                  <form class="forms-sample" action="" method="POST"  enctype="multipart/form-data">                    <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Judul</label>
@@ -31,7 +30,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Banner</label>
                           <div class="col-sm-9">
-                          <input type="file" class="form-control" name="foto_blog" id="exampleInputName1" placeholder="Foto Blog">
+                          <input type="file" class="form-control" name="foto_blog">
                           </div>
                         </div>
                       </div>

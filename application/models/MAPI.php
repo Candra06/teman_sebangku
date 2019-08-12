@@ -29,6 +29,10 @@ class MAPI extends CI_Model{
             $q = "SELECT * FROM blog  WHERE status='1'";
         }elseif ($tabel == 'promo') {
             $q = "SELECT * FROM promo  WHERE status='1'";
+        }elseif ($tabel == 'karyawan') {
+            $q = "SELECT * FROM karyawan  WHERE kd_karyawan='$key' AND status='1'";
+        }elseif ($tabel == 'dt_promo') {
+            $q = "SELECT * FROM promo  WHERE kd_promo='$key' AND status='1'";
         }
         $db_result = $this->db->query($q);
         $result_object = $db_result->result_array();

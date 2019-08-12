@@ -10,6 +10,7 @@ class Blog extends CI_Controller {
         $this->load->helper("Input_helper");
         $this->load->model("M_front");
         $this->load->model("MBlog");
+        $this->load->library('upload');
         // $this->load->model("MHistory");
         if ($this->uri->segment(2) == "Add" && $_SERVER['REQUEST_METHOD'] == "POST") {
             $this->Insert();
@@ -67,20 +68,26 @@ class Blog extends CI_Controller {
             } else {
                 // setting konfigurasi upload
                 $config['upload_path'] = './foto/blog/';
-                $config['allowed_types'] = 'gif|jpg|png|svg|jpeg';
+                $config['allowed_types'] = 'jpg|png|jpeg|PNG';
                 $config['file_name'] = 'blog_'.$p['judul'];
                 $config['remove_space'] = TRUE;
+                // $config['overwrite'] = TRUE;
+                // $config['encrypt_name'] = TRUE;
+                $config['max_size'] = 10000;
                 // load library upload
-                $this->load->library('upload', $config);
-                if(!$this->upload->do_upload('foto_blog')){
-                    echo "<script type=text/javascript>alert('Upload gagal!');</script>";
-                }else{
+                $this->upload->initialize($config);
+                if($this->upload->do_upload('foto_blog')){
                     $foto = $config['upload_path'].$this->upload->data('file_name');
+                }else{
+                    echo "<script type=text/javascript>alert('Upload gagal!');</script>";
+                    // echo $this->upload->display_errors('<p>', '</p>');
+
                 }
                 
             }
             
             // print_r($_FILES);
+            // print_r($foto);
             $data = [
             'kd_blog' => $kode_blog,
             'judul' => $p['judul'],
@@ -102,7 +109,7 @@ class Blog extends CI_Controller {
             // $this->MHistory->input_data($history);
             $this->session->set_flashdata("message", ['success', 'Berhasil input data '.$this->uri->segment(1)]);
             redirect(base_url("Blog"));
-            echo 'berhasil menambah data';
+            // echo 'berhasil menambah data';
         } catch (Exception $e) {
             $this->session->set_flashdata("message", ['danger', 'Gagal input data '.$this->uri->segment(1)]);
             redirect(base_url("Blog/Add"));

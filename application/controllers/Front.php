@@ -38,4 +38,11 @@ class Front extends CI_Controller {
 		 $data['menu'] = $this->MFrontEnd->menu();
 		 $this->load->view('frontend/index',$data);
 	 }
+
+	 public function invitation($kode){
+		$this->load->model("M_front");
+		 $data['title'] = "Kopi Teman Sebangku"; // title project
+		 $data['content'] = "referal";
+		 $this->load->view('frontend/index',$data);
+	}
 }
