@@ -94,7 +94,7 @@ class Blog extends CI_Controller {
             'conten' => $p['content'],
             'foto' => $foto,
             'tgl_upload' => $date,
-            'author' => $_SESSION['kode'],
+            'author' => $_SESSION['kd_user'],
             'status' => 1
             ];
 

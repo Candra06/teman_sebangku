@@ -102,6 +102,17 @@ class API extends CI_Controller
                 }elseif ($tipe == 'detail_promo') {
                     $kode = $this->input->post('kd_promo');
                     $data['data'] = $this->MAPI->get_data('dt_promo', $kode);
+                }elseif ($tipe == 'detail_blog') {
+                    $kode = $this->input->post('kd_blog');
+                    $data['data'] = $this->MAPI->multi_data('dt_blog', $kode, '');
+                }elseif ($tipe == 'detail_status') {
+                    $kode = $this->input->post('kd_menu');
+                    $data['data'] = $this->MAPI->multi_data('detail_menu', $kode, '');
+                }elseif ($tipe == 'profil_kasir') {
+                    $data['data']  = $this->MAPI->get_data('profil_kasir', $cek_auth['kd_akses']);
+                }elseif ($tipe == 'status_menu') {
+                    $outlet = $this->input->post('kd_outlet');
+                    $data['data']  = $this->MAPI->get_data('status_menu', $outlet);
                 }
             } else {
                 $data['respon'] = [
@@ -176,6 +187,8 @@ class API extends CI_Controller
                         'no_hp' => $cek['no_hp'] 
                     ];
 
+                    $outlet = $this->db->get_where("karyawan", ['kd_karyawan' => $cek['kd_karyawan']] )->row_array();
+
                     $this->MAPI->update_data('user', $array, 'kd_akses', $cek['kd_karyawan']);
                     $data['respon'] = [
                         'pesan' => 'Login Berhasil',
@@ -189,6 +202,7 @@ class API extends CI_Controller
                         'username' => $login['username'],
                         'nama' => $cek['nama'],
                         'status' => 1,
+                        'kd_outlet' => $outlet['kd_outlet'],
                         'no_hp' => $cek['no_hp'] 
                     ];
                 }else {
@@ -246,6 +260,7 @@ class API extends CI_Controller
                                 'username' => $login['username'],
                                 'nama' => $log['nama'],
                                 'status' => 2,
+                                'kd_outlet' => 'null',
                                 'no_hp' => $log['no_hp'] 
                             ];
                         }else{
@@ -309,10 +324,13 @@ class API extends CI_Controller
             $akses = $this->input->post('kd_user');
             $email = $this->input->post('email');
             $nama = $this->input->post('nama');
+            $sp = $this->db->get_where("poin", ['tipe' => 1] )->row_array();
+            $su = $this->db->get_where("pelanggan", ['kd_pelanggan' => $akses] )->row_array();
+            $count = (int)$su['poin'] + (int)$sp['jml_poin'];
             $arr = [
                 'email' => $email,
                 'nama' => $nama,
-                'poin' => 100,
+                'poin' => $count,
                 'status' => 1
             ];
             $usr = [
@@ -338,6 +356,9 @@ class API extends CI_Controller
             $get_poin = $this->db->get_where("pelanggan", ["kd_pelanggan" =>$kode])->row_array();
             $poin = (int)$get_poin['poin'] + 100;
             $cek_auth = $this->db->get_where("user", ["auth_key" =>$auth])->row_array();
+            $sp = $this->db->get_where("poin", ['tipe' => 1] )->row_array();
+            $su = $this->db->get_where("pelanggan", ['kd_pelanggan' => $cek_auth['kd_akses']] )->row_array();
+            $count = (int)$su['poin'] + (int)$sp['jml_poin'];
             if ($cek_auth > 1) {
                 if ($cek_auth['exp_date'] > $batas && $cek_auth['status_auth'] == 1){
                     $arr = [
@@ -346,7 +367,7 @@ class API extends CI_Controller
                         'tgl_lahir' => $tgl_lahir,
                         'domisili' => $domisili,
                         'status' => 2,
-                        'poin' => $poin
+                        'poin' => $count
                     ];
                     $this->MAPI->update_data('pelanggan', $arr, 'kd_pelanggan', $kode);
                     $data['respon'] = [
@@ -430,6 +451,37 @@ class API extends CI_Controller
                 'pesan' => 'Voucher berhasil digunakan',
                 'data' => $arr,
                 'savedata' => true
+            ];
+        }else if($tipe == 'add_detail_menu'){
+            $kd_menu = $this->input->post('kd_menu');
+            $kd_outlet = $this->input->post('kd_outlet');
+            $status = $this->input->post('status');
+            $kd_detail = $this->M_front->get_kode(10);
+            $arr = [
+                'kd_detail' => $kd_detail,
+                'kd_menu' => $kd_menu,
+                'kd_outlet' => $kd_outlet,
+                'status' => $status
+            ];
+            
+            $this->MAPI->insert_into('detail_menu', $arr);
+            $data['respon'] = [
+                'pesan' => 'Input Berhasil',
+                'data_detail' => $arr,
+                'bool' => true
+            ];
+        }else if($tipe == 'update_status_menu'){
+            $status = $this->input->post('status');
+            $kd_detail = $this->input->post('kd_detail');
+            $arr = [
+                'status' => $status
+            ];
+            
+            $this->MAPI->update_data('detail_menu', $arr, 'kd_detail', $kd_detail);
+            $data['respon'] = [
+                'pesan' => 'Update Berhasil',
+                'data_detail' => $arr,
+                'bool' => true
             ];
         }else{
             $data['respon'] = [

@@ -66,11 +66,21 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Syarat dan Ketentuan</label>
-                          <div class="col-sm-9">
-                            <textarea class="form-control" name="sk" id="exampleTextarea1" rows="2" placeholder="Syarat dan Ketentuan"><?= Input_helper::postOrOr('sk', $data['syarat_ketentuan'])?></textarea>
+                          <div class="col-sm-12">
+                            
+                            <textarea class="form-control" cols="100" id="editor3" name="sk" rows="4" data-sample-short><?= Input_helper::postOrOr('sk', $data['syarat_ketentuan'])?></textarea>
+                            <script>
+                              // We need to turn off the automatic editor creation first.
+                              CKEDITOR.disableAutoInline = true;
+
+                              CKEDITOR.replace('editor3', {
+                                extraPlugins: 'sourcedialog',
+                                removePlugins: 'sourcearea'
+                              });
+                            </script>
                           </div>
                         </div>
                       </div>

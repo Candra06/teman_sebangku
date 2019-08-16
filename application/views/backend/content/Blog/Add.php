@@ -35,11 +35,21 @@
                         </div>
                       </div>
                     
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Conten</label>
-                          <div class="col-sm-9">
-                            <textarea class="form-control" name="content" id="exampleTextarea1" rows="2" placeholder="Content"><?= Input_helper::postOrOr('conten', $data['conten'])?></textarea>
+                          <div class="col-sm-12">
+                          <textarea class="form-control" cols="100" id="editor3" name="content" rows="4" data-sample-short><?= Input_helper::postOrOr('conten', $data['conten'])?></textarea>
+                          <script>
+                            // We need to turn off the automatic editor creation first.
+                            CKEDITOR.disableAutoInline = true;
+
+                            CKEDITOR.replace('editor3', {
+                              extraPlugins: 'sourcedialog',
+                              removePlugins: 'sourcearea'
+                            });
+                          </script>
+                            <!-- <textarea class="form-control" name="content" id="exampleTextarea1" rows="2" placeholder="Content"><?= Input_helper::postOrOr('conten', $data['conten'])?></textarea> -->
                           </div>
                         </div>
                       </div>

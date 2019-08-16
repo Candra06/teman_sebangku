@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>asset/app/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?= base_url() ?>asset/app/images/favicon.png" />
+    <script src="https://cdn.ckeditor.com/4.12.1/standard-all/ckeditor.js"></script>
 
   </head>
   <body>

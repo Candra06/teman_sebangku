@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Promo extends CI_Controller {
+class Menu extends CI_Controller {
 
     function __construct(){
         parent::__construct();
@@ -9,7 +9,7 @@ class Promo extends CI_Controller {
         $this->load->helper(array('form', 'url'));
         $this->load->helper("Input_helper");
         $this->load->model("M_front");
-        $this->load->model("MPromo");
+        $this->load->model("MMenu");
         $this->load->library('upload');
         // $this->load->model("MHistory");
         if ($this->uri->segment(2) == "Add" && $_SERVER['REQUEST_METHOD'] == "POST") {
@@ -27,9 +27,9 @@ class Promo extends CI_Controller {
 	{
         $this->load->model("M_front");
         $data['title'] = "Kopi Teman Sebangku"; // title project
-        $data['header'] = "Data Promo";
-        $data['content'] = "Promo/index";
-        $data['data'] = $this->MPromo->tampilData();
+        $data['header'] = "Data Menu";
+        $data['content'] = "Menu/index";
+        $data['data'] = $this->MMenu->tampilData();
         $this->load->view('backend/index',$data);
     }
 
@@ -37,19 +37,19 @@ class Promo extends CI_Controller {
     {
         $this->load->model("M_front");
         $data['title'] = "Kopi Teman Sebangku"; // title project
-        $data['header'] = "Input Data Promo";
-        $data['content'] = "Promo/Add";
+        $data['header'] = "Input Data Menu";
+        $data['content'] = "Menu/Add";
         $data['data'] = null;
         $this->load->view('backend/index',$data);
     }
 
-    public function Edit($kd_Promo)
+    public function Edit($kd_menu)
     {
         $this->load->model("M_front");
         $data['title'] = "Kopi Teman Sebangku"; // title project
-        $data['header'] = "Input Data Promo";
-        $data['content'] = "Promo/Add";
-        $data['data'] = $this->db->get_where("Promo", ['kd_Promo' => $kd_Promo])->row_array();
+        $data['header'] = "Edit Menu";
+        $data['content'] = "Menu/Add";
+        $data['data'] = $this->db->get_where("menu", ['kd_menu' => $kd_menu])->row_array();
         $this->load->view('backend/index',$data);
     }
 
@@ -59,39 +59,43 @@ class Promo extends CI_Controller {
         try {
             $p = $_POST;
             $date = date('Y-m-d H:i:s');
-            $kode_promo = $this->M_front->auto_kode(5); 
+            $kode_menu = $this->M_front->auto_kode(5); 
             $kode_history = $this->M_front->auto_kode(8);
-            $foto = $_FILES['foto_promo']['name'];
+            $foto = $_FILES['foto_menu']['name'];
 
             if ($foto == '') {
                 echo "<script type=text/javascript>alert(Foto masih kosong!');</script>";
             } else {
                 // setting konfigurasi upload
-                $config['upload_path'] = './foto/promo/';
+                $config['upload_path'] = './foto/menu/';
                 $config['allowed_types'] = 'jpg|png|jpeg|PNG';
-                $config['file_name'] = 'promo_'.$p['promo'];
+                $config['file_name'] = 'menu_'.$p['menu'];
                 $config['remove_space'] = TRUE;
+                // $config['overwrite'] = TRUE;
+                // $config['encrypt_name'] = TRUE;
                 $config['max_size'] = 10000;
                 // load library upload
                 $this->upload->initialize($config);
-                if($this->upload->do_upload('foto_promo')){
+                if($this->upload->do_upload('foto_menu')){
                     $foto = $config['upload_path'].$this->upload->data('file_name');
                 }else{
                     echo "<script type=text/javascript>alert('Upload gagal!');</script>";
+                    // echo $this->upload->display_errors('<p>', '</p>');
+
                 }
                 
             }
             
             // print_r($_FILES);
             // print_r($foto);
-            $promo = [
-            'kd_promo' => $kode_promo,
-            'judul_promo' => $p['promo'],
-            'syarat_ketentuan' => $p['sk'],
-            'tgl_mulai' => $p['mulai'],
-            'tgl_akhir' => $p['akhir'],
+            $data = [
+            'kd_menu' => $kode_menu,
+            'menu' => $p['menu'],
+            'deskripsi' => $p['deskripsi'],
             'foto' => $foto,
-            'poin' => $p['poin'],
+            'jenis' => $p['jenis'],
+            'harga' => $p['harga'],
+            'deskripsi' => $p['deskripsi'],
             'status' => 1
             ];
 
@@ -102,14 +106,14 @@ class Promo extends CI_Controller {
             //     'aktivitas' => 'Menambah Data',
             //     'keterangan' => 'Menambah judul hikayat '.$p['judul']
             // ];
-            $this->MPromo->input_data($promo);
+            $this->MMenu->input_data($data);
             // $this->MHistory->input_data($history);
             $this->session->set_flashdata("message", ['success', 'Berhasil input data '.$this->uri->segment(1)]);
-            redirect(base_url("Promo"));
-            echo 'berhasil menambah data';
+            redirect(base_url("Menu"));
+            // echo 'berhasil menambah data';
         } catch (Exception $e) {
             $this->session->set_flashdata("message", ['danger', 'Gagal input data '.$this->uri->segment(1)]);
-            redirect(base_url("Promo/Add"));
+            redirect(base_url("Menu/Add"));
             echo 'Gagal menambah data';
         } 
     }

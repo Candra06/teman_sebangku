@@ -33,6 +33,10 @@ class MAPI extends CI_Model{
             $q = "SELECT * FROM karyawan  WHERE kd_karyawan='$key' AND status='1'";
         }elseif ($tabel == 'dt_promo') {
             $q = "SELECT * FROM promo  WHERE kd_promo='$key' AND status='1'";
+        }elseif ($tabel == 'profil_kasir') {
+            $q = "SELECT kr.*, us.username as email FROM karyawan kr, user us  WHERE kr.kd_karyawan='$key' AND us.kd_akses=kr.kd_karyawan AND kr.status='1'";
+        }elseif ($tabel == 'status_menu') {
+            $q = "SELECT dm.*, mn.menu, mn.foto FROM detail_menu dm, menu mn WHERE dm.kd_outlet='$key' AND dm.kd_menu=mn.kd_menu";
         }
         $db_result = $this->db->query($q);
         $result_object = $db_result->result_array();
@@ -47,6 +51,10 @@ class MAPI extends CI_Model{
             $q = "SELECT v.*, dv.kd_detail FROM voucher v, detail_voucher dv WHERE dv.kd_voucher='$key' AND dv.kd_pelanggan='$user' AND dv.kd_voucher=v.kd_voucher AND dv.kd_pelanggan=p.kd_pelanggan";
         }elseif ($tabel == 'voucher_ku') {
             $q = "SELECT v.*, dv.kd_detail FROM voucher v, detail_voucher dv WHERE dv.kd_pelanggan='$user' AND dv.status=1";
+        }elseif ($tabel == 'dt_blog') {
+            $q = "SELECT bg.*, kr.nama FROM blog bg, karyawan kr WHERE bg.kd_blog='$key' AND bg.author=kr.kd_karyawan AND bg.status=1";
+        }elseif ($tabel == 'detail_menu') {
+            $q = "SELECT dm.kd_detail, mn.menu, ot.nama_outlet, (CASE WHEN(dm.status=1) THEN 'Ready' ELSE 'Not Ready' END) AS status FROM detail_menu dm, outlet ot, menu mn WHERE dm.kd_menu=mn.kd_menu AND dm.kd_outlet=ot.kd_outlet AND dm.kd_menu='$key'";
         }
         
         $db_result = $this->db->query($q);

@@ -48,6 +48,7 @@ class App extends CI_Controller {
 		}else{
 			$_SESSION['kode'] = $cekData['kd_user'];
 			$_SESSION['username'] = $cekData['username'];
+			$_SESSION['kd_user'] = $cekData['kd_akses'];
 			// $_SESSION['nama'] = $cekData['nama'];
 			echo json_encode();
 			redirect(base_url('Home'));
