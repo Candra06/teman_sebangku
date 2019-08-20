@@ -37,6 +37,8 @@ class MAPI extends CI_Model{
             $q = "SELECT kr.*, us.username as email FROM karyawan kr, user us  WHERE kr.kd_karyawan='$key' AND us.kd_akses=kr.kd_karyawan AND kr.status='1'";
         }elseif ($tabel == 'status_menu') {
             $q = "SELECT dm.*, mn.menu, mn.foto FROM detail_menu dm, menu mn WHERE dm.kd_outlet='$key' AND dm.kd_menu=mn.kd_menu";
+        }elseif ($tabel == 'show_location') {
+            $q = "SELECT * FROM outlet  WHERE kd_outlet='$key' AND status='1'";
         }
         $db_result = $this->db->query($q);
         $result_object = $db_result->result_array();
@@ -55,6 +57,8 @@ class MAPI extends CI_Model{
             $q = "SELECT bg.*, kr.nama FROM blog bg, karyawan kr WHERE bg.kd_blog='$key' AND bg.author=kr.kd_karyawan AND bg.status=1";
         }elseif ($tabel == 'detail_menu') {
             $q = "SELECT dm.kd_detail, mn.menu, ot.nama_outlet, (CASE WHEN(dm.status=1) THEN 'Ready' ELSE 'Not Ready' END) AS status FROM detail_menu dm, outlet ot, menu mn WHERE dm.kd_menu=mn.kd_menu AND dm.kd_outlet=ot.kd_outlet AND dm.kd_menu='$key'";
+        }elseif ($tabel == 'distance') {
+            $q = "SELECT *, ( 3959 * acos ( cos ( radians($key) ) * cos( radians( latitude) ) * cos( radians( longitude ) - radians($user) ) + sin ( radians($key) ) * sin( radians( latitude ) ) ) ) AS distance FROM outlet HAVING distance < 30 order by distance asc";
         }
         
         $db_result = $this->db->query($q);
