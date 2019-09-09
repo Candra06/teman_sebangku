@@ -120,6 +120,9 @@ class API extends CI_Controller
                     $lat = $this->input->post('latitude');
                     $long = $this->input->post('longitude');
                     $data['data']  = $this->MAPI->multi_data('distance', $lat, $long);
+                }elseif ($tipe == 'history_poin') {
+                    $kd_user = $this->input->post('kd_user');   
+                    $data['data'] = $this->MAPI->get_data('history', $kd_user);
                 }
             } else {
                 $data['respon'] = [
@@ -313,12 +316,11 @@ class API extends CI_Controller
                                 'status_auth' => 1,
                                 'username' => '',
                                 'nama' => '',
-                                'auth_key' => '',
                             ];
 
                             $data['respon'] = [
                                 'pesan' => 'Input Berhasil',
-                                'data' => $arr,
+                                // 'data' => $arr,
                                 'user' => $session,
                                 'boollogin' => true
                             ];
@@ -347,21 +349,53 @@ class API extends CI_Controller
                     $akses = $this->input->post('kd_user');
                     $email = $this->input->post('email');
                     $nama = $this->input->post('nama');
-                    $sp = $this->db->get_where("poin", ['tipe' => 1] )->row_array();
+                    $refer = $this->input->post('referall');
+                    $histori = $this->M_front->get_kode(5);
+                    
                     $su = $this->db->get_where("pelanggan", ['kd_pelanggan' => $akses] )->row_array();
-                    $count = (int)$su['poin'] + (int)$sp['jml_poin'];
-                    $arr = [
-                        'email' => $email,
-                        'nama' => $nama,
-                        'poin' => $count,
-                        'status' => 1
-                    ];
+                    
+                    if ($refer == "" || $refer == null) {
+                        $sp = $this->db->get_where("poin", ['tipe' => 1] )->row_array();
+                        $count = (int)$su['poin'] + (int)$sp['jml_poin'];
+                        $arr = [
+                            'email' => $email,
+                            'nama' => $nama,
+                            'poin' => $count,
+                            'status' => 1
+                        ];
+                        $hp = [
+                            'kd_history' => $histori,
+                            'kd_pelanggan' => $akses,
+                            'aktivitas' => 'Register',
+                            'banyak_poin' => (int)$sp['jml_poin'],
+                            'status' => 1
+                        ];
+                    } else {
+                        $sp = $this->db->get_where("poin", ['tipe' => 1] )->row_array();
+                        $sr = $this->db->get_where("poin", ['tipe' => 5] )->row_array();
+                        $count = (int)$su['poin'] + (int)$sp['jml_poin'] + (int)$sr['poin'];
+                        $arr = [
+                            'email' => $email,
+                            'nama' => $nama,
+                            'poin' => $count,
+                            'status' => 1
+                        ];
+
+                        $hp = [
+                            'kd_history' => $histori,
+                            'kd_pelanggan' => $akses,
+                            'aktivitas' => 'Register with referall',
+                            'banyak_poin' => (int)$sp['jml_poin'],
+                            'status' => 1
+                        ];
+                    }
                     $usr = [
                         'username' => $email,
                         'status' => 1
                     ];
                     $this->MAPI->update_data('pelanggan', $arr, 'kd_pelanggan', $akses);
                     $this->MAPI->update_data('user', $usr, 'kd_akses', $akses);
+                    $this->MAPI->insert_into('history_point', $hp);
                     $data['respon'] = [
                         'pesan' => 'Input Berhasil',
                         'data_pelanggan' => $arr,
@@ -370,7 +404,7 @@ class API extends CI_Controller
                     ];
                 }else if ($tipe == 'complete') {
                     
-                    // $alamat = $this->input->post('alamat');
+                    $alamat = $this->input->post('alamat');
                     $gender = $this->input->post('gender');
                     $tgl_lahir = $this->input->post('tgl_lahir');
                     $domisili = $this->input->post('domisili');
@@ -382,17 +416,26 @@ class API extends CI_Controller
                     $sp = $this->db->get_where("poin", ['tipe' => 1] )->row_array();
                     $su = $this->db->get_where("pelanggan", ['kd_pelanggan' => $cek_auth['kd_akses']] )->row_array();
                     $count = (int)$su['poin'] + (int)$sp['jml_poin'];
+                    $histori = $this->M_front->get_kode(5);
                     if ($cek_auth > 1) {
                         if ($cek_auth['exp_date'] > $batas && $cek_auth['status_auth'] == 1){
                             $arr = [
-                                // 'alamat' => $alamat,
+                                'alamat' => $alamat,
                                 'gender' => $gender,
                                 'tgl_lahir' => $tgl_lahir,
                                 'domisili' => $domisili,
                                 'status' => 2,
                                 'poin' => $count
                             ];
+                            $hp = [
+                                'kd_history' => $histori,
+                                'kd_pelanggan' => $cek_auth['kd_akses'],
+                                'aktivitas' => 'Melengkapi profil',
+                                'banyak_poin' => (int)$sp['jml_poin'],
+                                'status' => 1
+                            ];
                             $this->MAPI->update_data('pelanggan', $arr, 'kd_pelanggan', $kode);
+                            $this->MAPI->insert_into('history_point', $hp);
                             $data['respon'] = [
                                 'pesan' => 'Input Berhasil',
                                 'data' => $arr,

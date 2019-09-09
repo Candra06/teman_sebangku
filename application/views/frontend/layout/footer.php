@@ -10,7 +10,7 @@
 								</p>
 								<p class="footer-text">
 									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | PrimaItech
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								</p>								
 							</div>
@@ -37,9 +37,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<h6>Follow Us</h6>
 								<p>Let us be social</p>
 								<div class="footer-social d-flex align-items-center">
-									<a href="#"><i class="fa fa-facebook"></i></a>
+									<a href="https://www.facebook.com/Kopi-Teman-Sebangku-472520553544050/"><i class="fa fa-facebook"></i></a>
 									<a href="#"><i class="fa fa-twitter"></i></a>
-									<a href="#"><i class="fa fa-instagram"></i></a>
+									<a href="https://www.instagram.com/kopitemansebangku/?hl=en"><i class="fa fa-instagram"></i></a>
 									<a href="#"><i class="fa fa-whatsapp"></i></a>
 								</div>
 							</div>

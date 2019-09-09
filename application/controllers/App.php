@@ -46,12 +46,26 @@ class App extends CI_Controller {
 		}else if($cekData['status'] == 0){
 			$this->session->set_flashdata("message", ['warning', 'Akun anda tidak aktif']);
 		}else{
-			$_SESSION['kode'] = $cekData['kd_user'];
-			$_SESSION['username'] = $cekData['username'];
-			$_SESSION['kd_user'] = $cekData['kd_akses'];
-			// $_SESSION['nama'] = $cekData['nama'];
+			if ($cekData['level'] == 1) {
+				$_SESSION['kode'] = $cekData['kd_user'];
+				$_SESSION['username'] = $cekData['username'];
+				$_SESSION['kd_user'] = $cekData['kd_akses'];
+				$_SESSION['level'] = $cekData['level'];
+				// $_SESSION['nama'] = $cekData['nama'];
 			echo json_encode();
 			redirect(base_url('Home'));
+			} else if ($cekData['level'] == 4) {
+				$_SESSION['kode'] = $cekData['kd_user'];
+				$_SESSION['username'] = $cekData['username'];
+				$_SESSION['kd_user'] = $cekData['kd_akses'];
+				$_SESSION['level'] = $cekData['level'];
+				// $_SESSION['nama'] = $cekData['nama'];
+				echo json_encode();
+				redirect(base_url('Home_content'));
+			}else{
+				# code...
+			}
+			
 		}
 	}
 	public function logout(){

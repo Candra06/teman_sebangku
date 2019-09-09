@@ -39,6 +39,7 @@
                               <option value="2" <?= ($tipe == '2' ? "selected" : '')?>>Lengkapi Profil</option>
                               <option value="3" <?= ($tipe == '3' ? "selected" : '')?>>Invite teman</option>
                               <option value="4" <?= ($tipe == '4' ? "selected" : '')?>>Belanja</option>
+                              <option value="5" <?= ($tipe == '5' ? "selected" : '')?>>Undangan dari teman</option>
                             </select>
                             
                           </div>

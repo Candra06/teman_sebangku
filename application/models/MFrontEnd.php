@@ -23,5 +23,16 @@ class MFrontEnd extends CI_Model{
         $ada = $q->result_array();
         return $ada;
     }
+    public function outlet(){
+        $q = $this->db->query("SELECT * FROM outlet WHERE status=1");
+        $ada = $q->result_array();
+        return $ada;
+    }
+
+    public function promo(){
+        $q = $this->db->query("SELECT * FROM promo WHERE status=1");
+        $ada = $q->result_array();
+        return $ada;
+    }
 }
 ?>

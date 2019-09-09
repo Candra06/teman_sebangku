@@ -36,6 +36,8 @@ class Front extends CI_Controller {
 		 $data['content'] = "index";
 		 $data['blog'] = $this->MFrontEnd->blog();
 		 $data['menu'] = $this->MFrontEnd->menu();
+		 $data['outlet'] = $this->MFrontEnd->outlet();
+		 $data['promo'] = $this->MFrontEnd->promo();
 		 $this->load->view('frontend/index',$data);
 	 }
 

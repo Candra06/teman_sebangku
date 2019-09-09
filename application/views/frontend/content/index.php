@@ -1,12 +1,12 @@
 <!-- start banner Area -->
-<section class="banner-area" id="home">	
+			<section class="banner-area" id="home">	
 				<div class="container">
 					<div class="row fullscreen d-flex align-items-center justify-content-start">
 						<div class="banner-content col-lg-7">
-							<h6 class="text-white text-uppercase">Now you can feel the Energy</h6>
+							<h6 class="text-white text-uppercase">Kopi Teman Sebangku</h6>
 							<h1>
-								Start your day with <br>
-								a black Coffee				
+								#RASAINI<br>
+								UNTUKMU		
 							</h1>
 							<a href="#" class="primary-btn text-uppercase">Download App</a>
 						</div>											
@@ -24,12 +24,11 @@
 							<a class="play-btn" href="https://www.youtube.com/watch?v=ARA0AxrnHdM"><img class="img-fluid" src="img/play-icon.png" alt=""></a>
 						</div>						
 						<div class="col-lg-6 video-left">
-							<h6>Live Coffee making process.</h6>
-							<h1>We Telecast our <br>
-							Coffee Making Live</h1>
-							<p><span>We are here to listen from you deliver exellence</span></p>
+							<h6>Kedai Kopi</h6>
+							<h1>TEMAN SEBANGKU KOPI<br></h1>
+							<p><span>#RasaIniUntukmu</span></p>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp or incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+							Semeja belum tentu sama, bagaimana kalau sebangku? Sobat bukanlah tentang siapa yang kamu kenal paling lama. Tetapi tentang teman sebangkumu yang selalu berkata “aku ada di sini untukmu”.
 							</p>
 							<!-- <img class="img-fluid" src="img/signature.png" alt=""> -->
 						</div>
@@ -37,15 +36,17 @@
 				</div>	
 			</section>
 			<!-- End video-sec Area -->
+
+			
 			
 			<!-- Start menu Area -->
-			<section class="menu-area section-gap" id="coffee">
+			<!-- <section class="menu-area section-gap" id="coffee">
 				<div class="container">
 					<div class="row d-flex justify-content-center">
 						<div class="menu-content pb-60 col-lg-10">
 							<div class="title text-center">
 								<h1 class="mb-10">Menu</h1>
-								<p>Who are in extremely love with eco friendly system.</p>
+								<p>Kami memiliki berbagai macam varian menu.</p>
 							</div>
 						</div>
 					</div>
@@ -68,51 +69,103 @@
 						<?php }?>															
 					</div>
 				</div>	
-			</section>
+			</section> -->
 			<!-- End menu Area -->
-			
-			<!-- Start gallery Area -->
-			<section class="gallery-area section-gap" id="gallery">
+
+			<!-- Start blog Area -->
+			<section class="blog-area section-gap" id="promo">
 				<div class="container">
 					<div class="row d-flex justify-content-center">
 						<div class="menu-content pb-60 col-lg-10">
 							<div class="title text-center">
-								<h1 class="mb-10">Our Gallery</h1>
-								<p>Who are in extremely love with eco friendly system.</p>
+								<h1 class="mb-10">Promo</h1>
+								<p>Kami selalu mengadakan promo tertentu secara berkala.</p>
 							</div>
 						</div>
 					</div>						
 					<div class="row">
-						<div class="col-lg-4">
-							<a href="<?= base_url() ?>/asset/front_end/img/g1.jpg" class="img-pop-home">
-								<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/g1.jpg" alt="">
-							</a>	
-							<a href="<?= base_url() ?>/asset/front_end/img/g2.jpg" class="img-pop-home">
-								<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/g2.jpg" alt="">
-							</a>	
+						<?php foreach($promo as $pr){?>
+						<div class="col-lg-4 col-md-6 single-blog">
+							<img class="img-fluid" src="<?= base_url() ?><?= $pr['foto']?>" alt="">
+							<ul class="post-tags">
+								<li></li>
+							</ul>
+							<a href=""><h4><?= $pr['judul_promo']?></h4></a>
+							
+							<p class="post-date">
+								31st January, 2018
+							</p>
 						</div>
-						<div class="col-lg-8">
-							<a href="<?= base_url() ?>/asset/front_end/img/g3.jpg" class="img-pop-home">
-								<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/g3.jpg" alt="">
-							</a>	
-							<div class="row">
-								<div class="col-lg-6">
-									<a href="<?= base_url() ?>/asset/front_end/img/g4.jpg" class="img-pop-home">
-										<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/g4.jpg" alt="">
-									</a>	
-								</div>
-								<div class="col-lg-6">
-									<a href="<?= base_url() ?>/asset/front_end/img/g5.jpg" class="img-pop-home">
-										<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/g5.jpg" alt="">
-									</a>	
-								</div>
+						<?php }?>
+						
+											
+					</div>
+				</div>	
+			</section>
+			<!-- End blog Area -->
+			
+			<!-- Start gallery Area -->
+			<section class="gallery-area section-gap" id="galery">
+				<div class="container">
+					<div class="row d-flex justify-content-center">
+						<div class="menu-content pb-60 col-lg-10">
+							<div class="title text-center">
+								<h1 class="mb-10">Outlet Kami</h1>
+								<p>Teman Sebangku Kopi memiliki beberapa outlet yang berada di kota Malang, Jawa Timur.</p>
 							</div>
 						</div>
+					</div>						
+					<div class="row">
+						<?php foreach ($outlet as $ot) {?>
+						<div class="col-lg-4">
+							<a href="<?= base_url() ?><?= $ot['foto']?>" class="img-pop-home">
+								<img class="img-fluid" src="<?= base_url() ?><?= $ot['foto']?>" alt="">
+							</a>	
+								
+						</div>
+						<?php }?>
 					</div>
 				</div>	
 			</section>
 			<!-- End gallery Area -->
 			
+			
+			
+			<!-- Start blog Area -->
+			<section class="blog-area section-gap" id="blog">
+				<div class="container">
+					<div class="row d-flex justify-content-center">
+						<div class="menu-content pb-60 col-lg-10">
+							<div class="title text-center">
+								<h1 class="mb-10">Blog</h1>
+								<p>Artikel dan blog.</p>
+							</div>
+						</div>
+					</div>						
+					<div class="row">
+					<?php foreach ($blog as $bg){?>
+						<div class="col-lg-6 col-md-6 single-blog">
+							<img class="img-fluid" src="<?= base_url() ?><?= $bg['foto']?>" alt="">
+							<ul class="post-tags">
+								<li><a href="#">Travel</a></li>
+								<li><a href="#">Life Style</a></li>
+							</ul>
+							<a href="<?= base_url() ?>"><h4><?= $bg['judul']?> </h4></a>
+							<p>
+								
+							</p>
+							<p class="post-date">
+								<?= $bg['tgl_upload'];?>
+							</p>
+						</div>
+					<?php }?>					
+					</div>
+					
+				</div>	
+				
+			</section>
+			<!-- End blog Area -->
+
 			<!-- Start review Area -->
 			<section class="review-area section-gap" id="review">
 				<div class="container">
@@ -154,73 +207,24 @@
 								</div>
 							</div>
 							<p>
-								Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker. Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker.
+								
 							</p>
 						</div>	
 					</div>
 					<div class="row counter-row">
-						<div class="col-lg-3 col-md-6 single-counter">
+						<div class="col-lg-4 col-md-6 single-counter">
 							<h1 class="counter">2536</h1>
-							<p>Happy Client</p>
+							<p>Menu Tersedia</p>
 						</div>
-						<div class="col-lg-3 col-md-6 single-counter">
+						<div class="col-lg-4 col-md-6 single-counter">
 							<h1 class="counter">7562</h1>
-							<p>Total Projects</p>
+							<p>Outlet</p>
 						</div>
-						<div class="col-lg-3 col-md-6 single-counter">
+						<div class="col-lg-4 col-md-6 single-counter">
 							<h1 class="counter">2013</h1>
-							<p>Cups Coffee</p>
-						</div>
-						<div class="col-lg-3 col-md-6 single-counter">
-							<h1 class="counter">10536</h1>
-							<p>Total Submitted</p>
+							<p>Blog</p>
 						</div>																		
 					</div>
 				</div>	
 			</section>
 			<!-- End review Area -->
-			
-			<!-- Start blog Area -->
-			<section class="blog-area section-gap" id="blog">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="menu-content pb-60 col-lg-10">
-							<div class="title text-center">
-								<h1 class="mb-10">Our Blog</h1>
-								<p>Who are in extremely love with eco friendly system.</p>
-							</div>
-						</div>
-					</div>						
-					<div class="row">
-						<div class="col-lg-6 col-md-6 single-blog">
-							<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/b1.jpg" alt="">
-							<ul class="post-tags">
-								<li><a href="#">Travel</a></li>
-								<li><a href="#">Life Style</a></li>
-							</ul>
-							<a href="<?= base_url() ?>/asset/front_end/generic.html"><h4>Portable latest Fashion for young women</h4></a>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore.
-							</p>
-							<p class="post-date">
-								31st January, 2018
-							</p>
-						</div>
-						<div class="col-lg-6 col-md-6 single-blog">
-							<img class="img-fluid" src="<?= base_url() ?>/asset/front_end/img/b2.jpg" alt="">
-							<ul class="post-tags">
-								<li><a href="#">Travel</a></li>
-								<li><a href="#">Life Style</a></li>
-							</ul>
-							<a href="#"><h4>Portable latest Fashion for young women</h4></a>
-							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore  et dolore.
-							</p>
-							<p class="post-date">
-								31st January, 2018
-							</p>
-						</div>						
-					</div>
-				</div>	
-			</section>
-			<!-- End blog Area -->

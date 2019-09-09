@@ -30,7 +30,11 @@ class Blog extends CI_Controller {
         $data['header'] = "Data Blog";
         $data['content'] = "Blog/index";
         $data['data'] = $this->MBlog->tampilData();
-        $this->load->view('backend/index',$data);
+        if ($_SESSION['level'] == 1) {
+            $this->load->view('backend/index',$data);
+        } else if ($_SESSION['level'] == 4){
+            $this->load->view('content/index',$data);
+        }
     }
 
     public function Add()
@@ -40,7 +44,11 @@ class Blog extends CI_Controller {
         $data['header'] = "Input Data Blog";
         $data['content'] = "Blog/Add";
         $data['data'] = null;
-        $this->load->view('backend/index',$data);
+        if ($_SESSION['level'] == 1) {
+            $this->load->view('backend/index',$data);
+        } else if ($_SESSION['level'] == 4){
+            $this->load->view('content/index',$data);
+        }
     }
 
     public function Edit($kd_outlet)

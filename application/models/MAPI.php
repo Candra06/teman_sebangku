@@ -39,6 +39,8 @@ class MAPI extends CI_Model{
             $q = "SELECT dm.*, mn.menu, mn.foto FROM detail_menu dm, menu mn WHERE dm.kd_outlet='$key' AND dm.kd_menu=mn.kd_menu";
         }elseif ($tabel == 'show_location') {
             $q = "SELECT * FROM outlet  WHERE kd_outlet='$key' AND status='1'";
+        }elseif ($tabel == 'history') {
+            $q = "SELECT * FROM history_point WHERE kd_pelanggan='$key' ORDER BY create_date ASC";
         }
         $db_result = $this->db->query($q);
         $result_object = $db_result->result_array();
@@ -58,7 +60,7 @@ class MAPI extends CI_Model{
         }elseif ($tabel == 'detail_menu') {
             $q = "SELECT dm.kd_detail, mn.menu, ot.nama_outlet, (CASE WHEN(dm.status=1) THEN 'Ready' ELSE 'Not Ready' END) AS status FROM detail_menu dm, outlet ot, menu mn WHERE dm.kd_menu=mn.kd_menu AND dm.kd_outlet=ot.kd_outlet AND dm.kd_menu='$key'";
         }elseif ($tabel == 'distance') {
-            $q = "SELECT *, ( 3959 * acos ( cos ( radians($key) ) * cos( radians( latitude) ) * cos( radians( longitude ) - radians($user) ) + sin ( radians($key) ) * sin( radians( latitude ) ) ) ) AS distance FROM outlet HAVING distance < 30 order by distance asc";
+            $q = "SELECT *, ( 3959 * acos ( cos ( radians($key) ) * cos( radians( latitude) ) * cos( radians( longitude ) - radians($user) ) + sin ( radians($key) ) * sin( radians( latitude ) ) ) ) AS distance FROM outlet HAVING distance < 500 order by distance asc";
         }
         
         $db_result = $this->db->query($q);

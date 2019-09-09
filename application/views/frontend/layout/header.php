@@ -21,15 +21,15 @@
     <!-- header -->
     <div class="container">
         <div class="row align-items-center justify-content-between d-flex">
-            <div id="logo">
-            <a href="<?= base_url() ?>/asset/front_end/index.html"><img src="<?= base_url() ?>/asset/front_end/img/LogoKop.png" alt="" title="" /></a>
+            <div id="logo" >
+            <a href="<?= base_url('Front') ?>"><img src="<?= base_url() ?>/asset/front_end/img/logo_nav.png" style="width: 60px; height:50px;" alt="" title="" /></a>
             </div>
             <nav id="nav-menu-container">
             <ul class="nav-menu">
                 <li class="menu-active"><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#coffee">Menu</a></li>
-                <li><a href="#review">Review</a></li>
+                <li><a href="#promo">Promo</a></li>
+                <li><a href="#galery">Outlet</a></li>
                 <li><a href="#blog">Blog</a></li>
                 <!-- <li class="menu-has-children"><a href="">Pages</a>
                 <ul>

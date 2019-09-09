@@ -30,7 +30,12 @@ class Promo extends CI_Controller {
         $data['header'] = "Data Promo";
         $data['content'] = "Promo/index";
         $data['data'] = $this->MPromo->tampilData();
-        $this->load->view('backend/index',$data);
+        if ($_SESSION['level'] == 1) {
+            $this->load->view('backend/index',$data);
+        } else if ($_SESSION['level'] == 4){
+            $this->load->view('content/index',$data);
+        }
+
     }
 
     public function Add()
@@ -40,7 +45,11 @@ class Promo extends CI_Controller {
         $data['header'] = "Input Data Promo";
         $data['content'] = "Promo/Add";
         $data['data'] = null;
-        $this->load->view('backend/index',$data);
+        if ($_SESSION['level'] == 1) {
+            $this->load->view('backend/index',$data);
+        } else if ($_SESSION['level'] == 4){
+            $this->load->view('content/index',$data);
+        }
     }
 
     public function Edit($kd_Promo)

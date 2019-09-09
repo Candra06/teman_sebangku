@@ -29,8 +29,14 @@ class Outlet extends CI_Controller {
         $data['header'] = "Data Outlet";
         $data['content'] = "Outlet/index";
         $data['data'] = $this->MOutlet->tampilData();
-        $this->load->view('backend/index',$data);
+        if ($_SESSION['level'] == 1) {
+            $this->load->view('backend/index',$data);
+        } else if ($_SESSION['level'] == 4){
+            $this->load->view('content/index',$data);
+        }
     }
+
+    
 
     public function Add()
     {
@@ -39,8 +45,14 @@ class Outlet extends CI_Controller {
         $data['header'] = "Input Data Outlet";
         $data['content'] = "Outlet/Add";
         $data['data'] = null;
-        $this->load->view('backend/index',$data);
+        if ($_SESSION['level'] == 1) {
+            $this->load->view('backend/index',$data);
+        } else if ($_SESSION['level'] == 4){
+            $this->load->view('content/index',$data);
+        }
+        
     }
+
 
     public function Edit($kd_outlet)
     {
