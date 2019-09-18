@@ -8,7 +8,7 @@
 								#RASAINI<br>
 								UNTUKMU		
 							</h1>
-							<a href="#" class="primary-btn text-uppercase">Download App</a>
+							<a href="<?= base_url('Front/blog') ?>" class="primary-btn text-uppercase">Download App</a>
 						</div>											
 					</div>
 				</div>
@@ -150,7 +150,7 @@
 								<li><a href="#">Travel</a></li>
 								<li><a href="#">Life Style</a></li>
 							</ul>
-							<a href="<?= base_url() ?>"><h4><?= $bg['judul']?> </h4></a>
+							<a href="<?= base_url('Front/blog/'.$bg['kd_blog'].'') ?>"><h4><?= $bg['judul']?> </h4></a>
 							<p>
 								
 							</p>

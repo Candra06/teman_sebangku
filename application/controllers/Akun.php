@@ -10,7 +10,7 @@ class Akun extends CI_Controller {
         $this->load->helper("Input_helper");
         $this->load->model("M_front");
         $this->load->model("MAkun");
-        $this->load->model("MHistory");
+        // $this->load->model("MHistory");
         if ($this->uri->segment(2) == "Add" && $_SERVER['REQUEST_METHOD'] == "POST") {
             $this->Input();
         }
@@ -30,7 +30,7 @@ class Akun extends CI_Controller {
     public function Add()
     {
         $this->load->model("M_front");
-        $data['title'] = "Backend-Hikayat"; // title project
+        $data['title'] = "Admin Teman Sebangku"; // title project
         $data['header'] = "Input Data Akun";
         $data['content'] = "Akun/add";
         $this->load->view('backend/index',$data);
@@ -39,15 +39,17 @@ class Akun extends CI_Controller {
     public function Input(){
         $p = $_POST;
         $date = date('Y-m-d H:i:s');
-        $kode_akun = $this->M_front->auto_kode(5); 
-        $kode_history = $this->M_front->auto_kode(8);
+        $kode_akun = $this->M_front->auto_kode(15); 
+        $auth = $this->M_front->auto_kode(25);
         try {
             $akun = [
-                'kd_akun' => $kode_akun,
-                'nama' => $p['nama'],
+                'kd_user' => $kode_akun,
                 'username' => $p['username'],
+                'level' => $p['level'],
+                'auth_key' => $auth,
                 'password' => md5($p['password']),
                 'status' => $p['status'],
+                'status_auth' => 1,
             ];
 
             $history = [
@@ -58,12 +60,12 @@ class Akun extends CI_Controller {
                 'keterangan' => 'Menambah akun '.$p['nama']
             ];
             $this->MAkun->input_data($akun);
-            $this->MHistory->input_data($history);
+            // $this->MHistory->input_data($history);
             $this->session->set_flashdata("message", ['success', 'Berhasil input data '.$this->uri->segment(1)]);
             redirect(base_url("Akun"));
         } catch (Exception $e) {
             $this->session->set_flashdata("message", ['danger', 'Gagal input data '.$this->uri->segment(1)]);
-            redirect(base_url("Akun/Add"));
+            redirect(base_url("Akun/add"));
             // echo 'Gagal menambah data';
         }
        

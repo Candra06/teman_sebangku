@@ -47,4 +47,19 @@ class Front extends CI_Controller {
 		 $data['content'] = "referal";
 		 $this->load->view('frontend/index',$data);
 	}
+
+	public function blog($kode){
+		$this->load->model("M_front");
+		 $data['title'] = "Kopi Teman Sebangku"; // title project
+		 $data['content'] = "detail_blog";
+		 $data['isi'] = $this->MFrontEnd->det_blog($kode);
+		 $this->load->view('frontend/index',$data);
+	}
+
+	public function detail_blog($kode){
+		$this->load->model("M_front");
+		 $data['title'] = "Kopi Teman Sebangku"; // title project
+		 $data['isi'] = $this->MFrontEnd->det_blog($kode);
+		 $this->load->view('frontend/blog',$data);
+	}
 }

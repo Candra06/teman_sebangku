@@ -34,5 +34,11 @@ class MFrontEnd extends CI_Model{
         $ada = $q->result_array();
         return $ada;
     }
+
+    public function det_blog($kode){
+        $q = $this->db->query("SELECT * FROM blog WHERE kd_blog='$kode' AND status=1");
+        $ada = $q->result_array();
+        return $ada;
+    }
 }
 ?>

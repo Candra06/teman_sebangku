@@ -8,7 +8,7 @@
                   <img src="<?= base_url() ?>asset/app/images/faces/face1.jpg" alt="profile image">
                 </div>
                 <div class="text-wrapper">
-                  <p class="profile-name"> <?= $_SESSION['username']?> </p> <!--  -->
+                  <p class="profile-name"> <?= str_replace('@temansebangku.id', '', $_SESSION['username'])?> </p> <!--  -->
                   <div>
                     <small class="designation text-muted">Content Writer</small>
                     <span class="status-indicator online"></span>

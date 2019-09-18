@@ -26,11 +26,11 @@
             </div>
             <nav id="nav-menu-container">
             <ul class="nav-menu">
-                <li class="menu-active"><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#promo">Promo</a></li>
-                <li><a href="#galery">Outlet</a></li>
-                <li><a href="#blog">Blog</a></li>
+                <li class="menu-active"><a href="<?= base_url('Front') ?>#home">Home</a></li>
+                <li><a href="<?= base_url('Front') ?>#about">About</a></li>
+                <li><a href="<?= base_url('Front') ?>#promo">Promo</a></li>
+                <li><a href="<?= base_url('Front') ?>#galery">Outlet</a></li>
+                <li><a href="<?= base_url('Front') ?>#blog">Blog</a></li>
                 <!-- <li class="menu-has-children"><a href="">Pages</a>
                 <ul>
                     <li><a href="generic.html">Generic</a></li>
